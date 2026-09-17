@@ -1,0 +1,29 @@
+{
+  "name": "news",
+  "version": "1.0.0",
+  "description": "AI 新闻 RSS 聚合日报生成器",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "scrape": "tsx src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awayicheng-tammy/news.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awayicheng-tammy/news/issues"
+  },
+  "homepage": "https://github.com/awayicheng-tammy/news#readme",
+  "dependencies": {
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}

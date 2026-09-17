@@ -1,7 +1,7 @@
 # AI 新闻日报 - 2026-09-17
 
-- 生成时间: 2026-09-17 07:45
-- 覆盖范围: 最近 24 小时（2026-09-16 07:45 ~ 2026-09-17 07:45）
+- 生成时间: 2026-09-17 07:58
+- 覆盖范围: 最近 24 小时（2026-09-16 07:58 ~ 2026-09-17 07:58）
 - 统计: 共收录 54 篇，来自 3 个源
 
 ## [OpenAI reveals cases of 'concerning' AI behaviour as it announces new ... system](https://www.theguardian.com/technology/2026/sep/17/openai-reports-concerning-ai-behaviour-jailbreak-talking-to-other-agents)

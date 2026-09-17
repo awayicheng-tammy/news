@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { dedupeArticlesByUrl } from "./dedupe.js";
 import { fetchArticles } from "./fetchFeed.js";
 import { buildReport } from "./report.js";
 import { SOURCES } from "./sources.js";
@@ -41,9 +42,15 @@ async function main(): Promise<void> {
       article.publishedAt >= windowStart && article.publishedAt <= windowEnd
   );
 
-  await addAiSummaries(recentArticles);
+  const dedupedArticles = dedupeArticlesByUrl(recentArticles);
+  const duplicateCount = recentArticles.length - dedupedArticles.length;
+  if (duplicateCount > 0) {
+    console.log(`[OK] 按 URL 去重，移除了 ${duplicateCount} 篇重复文章`);
+  }
 
-  const report = buildReport(recentArticles, windowStart, windowEnd);
+  await addAiSummaries(dedupedArticles);
+
+  const report = buildReport(dedupedArticles, windowStart, windowEnd);
 
   const outputDir = path.join(process.cwd(), "output");
   await mkdir(outputDir, { recursive: true });
@@ -54,7 +61,7 @@ async function main(): Promise<void> {
   await writeFile(outputPath, report, "utf-8");
 
   console.log(
-    `\n共收录 ${recentArticles.length} 篇（最近 24 小时），已写入 ${outputPath}`
+    `\n共收录 ${dedupedArticles.length} 篇（最近 24 小时），已写入 ${outputPath}`
   );
 }
 

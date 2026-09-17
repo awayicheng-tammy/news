@@ -39,8 +39,32 @@ function buildSummary(text: string): string {
   return `${text.slice(0, SUMMARY_MAX_LENGTH)}…`;
 }
 
+const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = 1500;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * hnrss.org in particular returns occasional transient 502s. Retry a few
+ * times with a short delay before giving up on the source entirely.
+ */
+async function parseWithRetry(url: string) {
+  let lastError: unknown;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      return await parser.parseURL(url);
+    } catch (error) {
+      lastError = error;
+      if (attempt < MAX_RETRIES) await sleep(RETRY_DELAY_MS * (attempt + 1));
+    }
+  }
+  throw lastError;
+}
+
 export async function fetchArticles(source: FeedSource): Promise<Article[]> {
-  const feed = await parser.parseURL(source.url);
+  const feed = await parseWithRetry(source.url);
 
   const articles: Article[] = [];
   for (const item of feed.items ?? []) {

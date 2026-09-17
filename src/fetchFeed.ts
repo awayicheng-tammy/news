@@ -19,9 +19,7 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-function buildSummary(rawText: string | undefined): string {
-  if (!rawText) return "";
-  const text = stripHtml(rawText);
+function buildSummary(text: string): string {
   if (text.length <= SUMMARY_MAX_LENGTH) return text;
   return `${text.slice(0, SUMMARY_MAX_LENGTH)}…`;
 }
@@ -40,15 +38,17 @@ export async function fetchArticles(source: FeedSource): Promise<Article[]> {
     const publishedAt = new Date(dateStr);
     if (Number.isNaN(publishedAt.getTime())) continue;
 
-    const summary = buildSummary(
-      item.contentSnippet ?? item.content ?? item.summary
+    const description = stripHtml(
+      item.contentSnippet ?? item.content ?? item.summary ?? ""
     );
+    const summary = buildSummary(description);
 
     articles.push({
       title,
       link,
       publishedAt,
       source: source.name,
+      description,
       summary,
     });
   }

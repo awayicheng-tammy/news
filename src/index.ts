@@ -3,6 +3,7 @@ import path from "node:path";
 import { fetchArticles } from "./fetchFeed.js";
 import { buildReport } from "./report.js";
 import { SOURCES } from "./sources.js";
+import { addAiSummaries } from "./summarize.js";
 import type { Article } from "./types.js";
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -39,6 +40,8 @@ async function main(): Promise<void> {
     (article) =>
       article.publishedAt >= windowStart && article.publishedAt <= windowEnd
   );
+
+  await addAiSummaries(recentArticles);
 
   const report = buildReport(recentArticles, windowStart, windowEnd);
 

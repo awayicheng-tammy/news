@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/awayicheng-tammy/news#readme",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
     "rss-parser": "^3.13.0"
   },
   "devDependencies": {

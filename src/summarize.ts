@@ -1,7 +1,7 @@
 import type { Article } from "./types.js";
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
-const MODEL = "deepseek-chat";
+const MODEL = "deepseek-flash";
 const CONCURRENCY = 5;
 
 const SYSTEM_PROMPT =

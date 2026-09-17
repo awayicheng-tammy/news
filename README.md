@@ -24,7 +24,7 @@ npm run scrape
 
 ## AI 摘要
 
-每篇文章的摘要由 DeepSeek API（`deepseek-chat`）根据标题 + 描述生成一句话中文总结。需要
+每篇文章的摘要由 DeepSeek API（`deepseek-flash`）根据标题 + 描述生成一句话中文总结。需要
 设置环境变量 `DEEPSEEK_API_KEY`；未设置或调用失败时，会自动回退到从描述截取的摘要，
 不影响日报生成。Hacker News 来源的 description 本身只是链接模板文本，会被清洗掉并用
 标题兜底，不会作为摘要来源。

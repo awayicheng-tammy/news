@@ -19,6 +19,21 @@ function stripHtml(html: string): string {
     .trim();
 }
 
+/**
+ * hnrss.org descriptions are just link boilerplate ("Article URL: ...
+ * Comments URL: ... Points: N # Comments: N"), never real article text.
+ * Strip it so it doesn't leak into summaries as raw URLs.
+ */
+function stripHnBoilerplate(text: string): string {
+  return text
+    .replace(/Article URL:\s*\S+/gi, "")
+    .replace(/Comments URL:\s*\S+/gi, "")
+    .replace(/Points:\s*\d+/gi, "")
+    .replace(/#?\s*Comments:\s*\d+/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function buildSummary(text: string): string {
   if (text.length <= SUMMARY_MAX_LENGTH) return text;
   return `${text.slice(0, SUMMARY_MAX_LENGTH)}…`;
@@ -38,9 +53,10 @@ export async function fetchArticles(source: FeedSource): Promise<Article[]> {
     const publishedAt = new Date(dateStr);
     if (Number.isNaN(publishedAt.getTime())) continue;
 
-    const description = stripHtml(
+    const rawDescription = stripHtml(
       item.contentSnippet ?? item.content ?? item.summary ?? ""
     );
+    const description = stripHnBoilerplate(rawDescription) || title;
     const summary = buildSummary(description);
 
     articles.push({

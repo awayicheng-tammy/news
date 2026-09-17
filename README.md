@@ -13,7 +13,7 @@ AI 新闻 RSS 聚合日报生成器。抓取最近 24 小时内的 AI 相关文�
 
 ```bash
 npm install
-export ANTHROPIC_API_KEY=your-api-key
+export DEEPSEEK_API_KEY=your-api-key
 npm run scrape
 ```
 
@@ -24,9 +24,10 @@ npm run scrape
 
 ## AI 摘要
 
-每篇文章的摘要由 Claude API（`claude-opus-5`）根据标题 + 描述生成一句话中文总结。需要
-设置环境变量 `ANTHROPIC_API_KEY`；未设置或调用失败时，会自动回退到从描述截取的摘要，
-不影响日报生成。
+每篇文章的摘要由 DeepSeek API（`deepseek-flash`）根据标题 + 描述生成一句话中文总结。需要
+设置环境变量 `DEEPSEEK_API_KEY`；未设置或调用失败时，会自动回退到从描述截取的摘要，
+不影响日报生成。Hacker News 来源的 description 本身只是链接模板文本，会被清洗掉并用
+标题兜底，不会作为摘要来源。
 
 在 GitHub Actions 里运行时，把 API key 存到仓库的 `Settings → Secrets and variables →
-Actions` 下，命名为 `ANTHROPIC_API_KEY`，workflow 会自动读取。
+Actions` 下，命名为 `DEEPSEEK_API_KEY`，workflow 会自动读取。
